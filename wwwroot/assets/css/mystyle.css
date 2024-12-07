@@ -1,0 +1,14 @@
+﻿.profileimage {
+    border-radius: 20%; /* Makes the image rounded */
+    border: 7px solid white; /* Adds a clean white border */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover animation */
+    max-width: 100%; /* Ensures responsiveness */
+    height: auto; /* Maintains aspect ratio */
+}
+
+    /* Hover Effect */
+    .profileimage:hover {
+        transform: scale(1.05); /* Slightly enlarges the image */
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Enhances the shadow on hover */
+    }
