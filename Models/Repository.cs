@@ -1,60 +1,93 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Ecomm.Models;
+﻿
 using Ecomm.Data;
+using Ecomm.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Ecomm.Repositories
+namespace TequliasRestaurant.Models
 {
     public class Repository<T> : IRepository<T> where T : class
     {
         protected ApplicationDbContext _context { get; set; }
-        private DbSet<T> _dbSet;
+        private DbSet<T> _dbSet { get; set; }
 
-        // Constructor to inject the ApplicationDbContext
         public Repository(ApplicationDbContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();
         }
 
-        // Add a new entity
         public async Task AddAsync(T entity)
         {
-            await _dbSet.AddAsync(entity);  // Adding the entity to DbSet
-            await _context.SaveChangesAsync(); // Saving changes to the database
+            await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        // Update an existing entity
-        public async Task UpdateAsync(T entity)
-        {
-            _dbSet.Update(entity); // Updating the entity in DbSet
-            await _context.SaveChangesAsync(); // Saving changes to the database
-        }
-
-        // Delete an entity by Id
         public async Task DeleteAsync(int id)
         {
-            var entity = await _dbSet.FindAsync(id); // Find the entity by id
-            if (entity != null)
-            {
-                _dbSet.Remove(entity); // Remove the entity from DbSet
-                await _context.SaveChangesAsync(); // Saving changes to the database
-            }
+            T entity = await _dbSet.FindAsync(id);
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-        // Get all entities of type T
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync(); // Return all entities as a list
+            return await _dbSet.ToListAsync();
         }
 
-        // Get entity by Id
         public async Task<T> GetByIdAsync(int id, QueryOptions<T> options)
         {
-            var entity = await _dbSet.FindAsync(id); // Find the entity by id
-            return entity;
+            IQueryable<T> query = _dbSet;
+            if (options.HasWhere)
+            {
+                query = query.Where(options.Where);
+            }
+            if (options.HasOrderBy)
+            {
+                query = query.OrderBy(options.OrderBy);
+            }
+            foreach (string include in options.GetIncludes())
+            {
+                query = query.Include(include);
+            }
+
+            var key = _context.Model.FindEntityType(typeof(T)).FindPrimaryKey().Properties.FirstOrDefault();
+            string primaryKeyName = key?.Name;
+            return await query.FirstOrDefaultAsync(e => EF.Property<int>(e, primaryKeyName) == id);
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            _context.Update(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllByIdAsync<TKey>(TKey id, string propertyName, QueryOptions<T> options)
+        {
+            IQueryable<T> query = _dbSet;
+
+            if (options.HasWhere)
+            {
+                query = query.Where(options.Where);
+            }
+
+
+            if (options.HasOrderBy)
+            {
+                query = query.OrderBy(options.OrderBy);
+            }
+
+            foreach (string include in options.GetIncludes())
+            {
+                query = query.Include(include);
+            }
+            // Filter by the specified property name and id
+            query = query.Where(e => EF.Property<TKey>(e, propertyName).Equals(id));
+
+            return await query.ToListAsync();
+
         }
     }
 }

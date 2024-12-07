@@ -1,16 +1,4 @@
-/**
-* Template Name: Techie
-* Template URL: https://bootstrapmade.com/techie-free-skin-bootstrap-3/
-* Updated: Aug 07 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
 
-/*--------------------------------------------------------------
-# Font & Color Variables
-# Help: https://bootstrapmade.com/color-system/
---------------------------------------------------------------*/
-/* Fonts */
 :root {
   --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --heading-font: "Raleway",  sans-serif;
@@ -148,9 +136,6 @@ h6 {
   }
 }
 
-/*--------------------------------------------------------------
-# Global Header
---------------------------------------------------------------*/
 .header {
   --background-color: rgba(0, 0, 0, 0);
   --default-color: #ffffff;
@@ -483,9 +468,6 @@ h6 {
   }
 }
 
-/*--------------------------------------------------------------
-# Global Footer
---------------------------------------------------------------*/
 .footer {
   color: var(--default-color);
   background: linear-gradient(45deg, var(--background-color) 0%, color-mix(in srgb, var(--surface-color), transparent 10%) 100%), url("../img/footer-bg.jpg") center center no-repeat;
@@ -604,9 +586,6 @@ h6 {
   font-size: 13px;
 }
 
-/*--------------------------------------------------------------
-# Preloader
---------------------------------------------------------------*/
 #preloader {
   position: fixed;
   inset: 0;
@@ -979,9 +958,6 @@ section,
   color: color-mix(in srgb, var(--default-color), transparent 40%);
 }
 
-/*--------------------------------------------------------------
-# Services Section
---------------------------------------------------------------*/
 .services .service-item {
   position: relative;
   padding-top: 20px;
@@ -1029,13 +1005,9 @@ section,
   background-color: var(--accent-color);
 }
 
-.services .service-item:hover .icon i {
-  color: var(--contrast-color);
-}
-
-/*--------------------------------------------------------------
-# Features Section
---------------------------------------------------------------*/
+    .services .service-item:hover .icon i {
+        color: var(--contrast-color);
+    }
 .features .features-image {
   position: relative;
   min-height: 400px;
@@ -1060,9 +1032,6 @@ section,
   margin: 0;
 }
 
-/*--------------------------------------------------------------
-# Testimonials Section
---------------------------------------------------------------*/
 .testimonials .testimonials-carousel,
 .testimonials .testimonials-slider {
   overflow: hidden;
@@ -1234,9 +1203,6 @@ section,
   transform: scale(1.1);
 }
 
-/*--------------------------------------------------------------
-# Pricing Section
---------------------------------------------------------------*/
 .pricing .pricing-item {
   background-color: var(--surface-color);
   box-shadow: 0 3px 20px -2px rgba(0, 0, 0, 0.1);
@@ -1349,9 +1315,6 @@ section,
   }
 }
 
-/*--------------------------------------------------------------
-# Faq Section
---------------------------------------------------------------*/
 .faq .faq-container .faq-item {
   background-color: var(--surface-color);
   position: relative;
@@ -1840,9 +1803,6 @@ section,
   color: var(--accent-color);
 }
 
-/*--------------------------------------------------------------
-# Starter Section Section
---------------------------------------------------------------*/
 .starter-section {
   /* Add your styles here */
 }
