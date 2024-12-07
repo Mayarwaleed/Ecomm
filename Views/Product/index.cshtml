@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewBag.Title = "List of Products";
+    Layout = "_Layout"; // This will use the default layout template
+}
+
+<h1>Products</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                <!-- Add any additional headers here if needed -->
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => product.Name)
+                </td>
+                <td>
+                    <!-- You can add action links, buttons, or any other functionality here -->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
