@@ -1,45 +1,59 @@
+using Ecomm.Data;
+using Ecomm.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-using Ecomm.Data;
+var builder = WebApplication.CreateBuilder(args);
 
-namespace Ecomm
+// Configure database context with SQL Server
+var connectionString = builder.Configuration.GetConnectionString("con")
+                       ?? throw new InvalidOperationException("Connection string 'con' not found.");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+// Add Identity services
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+    options.SignIn.RequireConfirmedAccount = true;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
-            // Configure database context with SQL Server
-            var con = builder.Configuration.GetConnectionString("con");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(con));
+// Add MVC services
+builder.Services.AddControllersWithViews();
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+// Configure session and memory cache
+builder.Services.AddMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set your timeout here
+});
 
-            var app = builder.Build();
+var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Product}/{action=Index}/{id?}");
-
-            app.Run();
-        }
-    }
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseMigrationsEndPoint();
 }
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.UseSession();
+
+// Default route configuration
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Ingredient}/{action=Index}/{id?}");
+
+app.Run();

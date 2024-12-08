@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace TequliasRestaurant.Models
+namespace Ecomm.Models
 {
     public interface IRepository<T> where T : class
     {

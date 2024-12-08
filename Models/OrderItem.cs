@@ -1,4 +1,6 @@
-﻿namespace Ecomm.Models
+﻿using Ecomm.Models;
+
+namespace Ecomm.Models
 {
     public class OrderItem
     {

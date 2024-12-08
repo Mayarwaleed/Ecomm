@@ -1,12 +1,13 @@
 ﻿
+
+
 using Ecomm.Data;
 using Ecomm.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Ecomm.Data;
 
-namespace TequliasRestaurant.Models
+namespace Ecomm.Models
 {
     public class Repository<T> : IRepository<T> where T : class
     {
